@@ -13,22 +13,22 @@ public class PlayerMovement : MonoBehaviour
     public float airMultiplier;
     private bool readyToJump = true;
 
+    private Camera mainCam;
+    
+    
 
     [Header("Keybinds")]
     public KeyCode jumpKey = KeyCode.Space;
 
     [Header("Ground Check")]
     private bool grounded;
-    
-    
-    public Transform orientation;
-
     float horizontalInput;
     float verticalInput;
     Vector3 moveDirection;
-
+    
+    public Transform orientation;
     Rigidbody rb;
-
+    
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -37,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+
         grounded = Physics.Raycast(transform.position, Vector3.down, 1.1f, 1<<LayerMask.NameToLayer("isGround"));
 
         PlayerInput();
@@ -72,10 +73,9 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void MovePlayer()
+    private void MovePlayer()
     {
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
-
 
         if (grounded)
         {
@@ -89,17 +89,20 @@ public class PlayerMovement : MonoBehaviour
 
     private void SpeedControl()
     {
-        Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+        
+            Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
-        if (flatVel.magnitude > moveSpeed)
-        {
-            Vector3 limitedVel = flatVel.normalized * moveSpeed;
-            rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
-        }
+            if (flatVel.magnitude > moveSpeed)
+            {
+                Vector3 limitedVel = flatVel.normalized * moveSpeed;
+                rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
+            }
     }
 
     private void Jump()
     {
+
+        
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
         
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
@@ -108,6 +111,7 @@ public class PlayerMovement : MonoBehaviour
     private void ResetJump()
     {
         readyToJump = true;
+        
     }
-
+    
 }

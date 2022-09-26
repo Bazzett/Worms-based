@@ -1,24 +1,28 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [SerializeField] private float speed;
-    private bool isActive;
-
-
-    public void Initialize()
-    {
-        isActive = true;
-    }
+    public GameObject damageIndicatorPrefab;
+    public float damage = 10f;
     
-    void Update()
+    private void OnCollisionEnter(Collision collision)
     {
-        if (isActive)
+        GameObject damageIndicator = Instantiate(damageIndicatorPrefab);
+        damageIndicator.transform.position = collision.GetContact(0).point;
+
+        Destroy(gameObject);
+        
+        Target target = transform.GetComponent<Target>();
+
+        if (target != null)
         {
-            transform.Translate(transform.forward * speed * Time.deltaTime);
+            target.TakeDamage(damage);
         }
     }
-
+    
+    
+    
 }

@@ -1,20 +1,34 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class CharacterWeapon : MonoBehaviour
 {
-    [SerializeField] private GameObject BulletPrefab;
-    [SerializeField] private Transform BarrelPosition;
-
-    private void Update()
+    public LayerMask ignoreMask;
+    public GameObject bulletPrefab;
+    public Transform barrelPos;
+    public float bulletSpeed;
+    void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        RaycastHit hit; 
+        Ray mousePos = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(mousePos, out hit, Mathf.Infinity, ignoreMask))
         {
-            GameObject newProjectile = Instantiate(BulletPrefab);
-            newProjectile.transform.position = BarrelPosition.position;
-            newProjectile.GetComponent<Projectile>().Initialize();
+            transform.LookAt(hit.point);
+        }
+        
+        Shoot();
+    }
+
+    void Shoot()
+    {
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            GameObject newProjectile = Instantiate(bulletPrefab, barrelPos.transform.position, barrelPos.transform.rotation);
+            newProjectile.GetComponent<Rigidbody>().AddForce(transform.forward * bulletSpeed);
         }
     }
+    
 }
