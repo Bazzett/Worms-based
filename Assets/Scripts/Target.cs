@@ -1,20 +1,23 @@
+using System;
 using UnityEngine;
 
 public class Target : MonoBehaviour
 {
-    public float health = 50f;
+    public int maxHealth = 50;
+    public int currentHealth;
 
-    public void TakeDamage(float amount)
+    public HealthBar healthBar;
+
+    void Start()
     {
-        health -= amount;
-        if (health <= 0f)
-        {
-            Die();
-        }
+        currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
     }
 
-    void Die()
+    
+    void TakeDamage(int damage)
     {
-        Destroy(gameObject);
+        currentHealth -= damage;
+        healthBar.SetHealth(currentHealth);
     }
 }
