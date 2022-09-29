@@ -5,14 +5,21 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public GameObject damageIndicatorPrefab;
-
+ 
+    [SerializeField] private int bulletDamage;
     private void OnCollisionEnter(Collision collision)
     {
-        GameObject damageIndicator = Instantiate(damageIndicatorPrefab);
-        damageIndicator.transform.position = collision.GetContact(0).point;
+        if (collision.gameObject.tag == "Player")
+        {
+            collision.gameObject.GetComponent<Target>().TakeDamage(bulletDamage);
+            Debug.Log(collision.gameObject);
+            Destroy(gameObject);
+        }
+        else if (collision.gameObject.tag != "Player")
+        {
+            Destroy(gameObject);
+        }
         
         
-        Destroy(gameObject);
     }
 }

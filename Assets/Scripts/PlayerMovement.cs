@@ -9,8 +9,8 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed;
     public float groundDrag;
     public float jumpForce;
-    public float jumpCoolDown;
     public float airMultiplier;
+    public float jumpCoolDown;
     private bool readyToJump = true;
 
     private Camera mainCam;
@@ -101,7 +101,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Jump()
     {
-
         
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
         
