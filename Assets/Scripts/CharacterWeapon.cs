@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class CharacterWeapon : MonoBehaviour
@@ -9,8 +10,11 @@ public class CharacterWeapon : MonoBehaviour
     public GameObject bulletPrefab;
     public Transform barrelPos;
     public float bulletSpeed;
-    
+
+    [Header("Ammo")] 
+    [SerializeField] private float magSize;
     [SerializeField] private float bulletsLeft;
+    [SerializeField] private Text ammoDisplay;
 
     private bool readyToShoot = true;
     [SerializeField] private float shootCD;
@@ -23,7 +27,9 @@ public class CharacterWeapon : MonoBehaviour
         {
             transform.LookAt(hit.point);
         }
-        
+
+
+        ammoDisplay.text = bulletsLeft + "/" + magSize;
         Shoot();
     }
 

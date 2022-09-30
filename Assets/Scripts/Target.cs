@@ -23,8 +23,7 @@ public class Target : MonoBehaviour
         }
         
     }
-
-
+    
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;

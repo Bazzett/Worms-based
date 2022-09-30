@@ -12,7 +12,7 @@ public class Projectile : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             collision.gameObject.GetComponent<Target>().TakeDamage(bulletDamage);
-            Debug.Log(collision.gameObject);
+            print("aj");
             Destroy(gameObject);
         }
         else if (collision.gameObject.tag != "Player")
