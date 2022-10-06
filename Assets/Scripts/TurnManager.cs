@@ -1,47 +1,64 @@
 using System;
 using UnityEngine;
+using TMPro;
 
 public class TurnManager : MonoBehaviour
 {
 
-    [SerializeField] private GameObject player1;
-    [SerializeField] private GameObject player2;
+    public GameObject[] players;
+    private int turn;
+    public TextMeshProUGUI timerText;
+    private float playTimer;
+    public GameObject[] cameras;
+    public GameObject[] guns;
 
-    private GameObject _myTurn;
+    public float turnTime = 10;
 
-    private void Awake()
+    // Start is called before the first frame update
+    void Start()
     {
-        _myTurn = player1;
+        
     }
 
-    private void Update()
+    // Update is called once per frame
+    void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            if (_myTurn == player1)
-            {
-                print("1");
-                
-                _myTurn.GetComponent<PlayerMovement>().enabled = false;
-                _myTurn.transform.GetChild(4).gameObject.SetActive(false);
-                
-                player2.GetComponent<PlayerMovement>().enabled = true;
-                player2.transform.GetChild(4).gameObject.SetActive(true);
-                
-                _myTurn = player2;
-            } 
-            else if (_myTurn == player2)
-            {
-                print("2");
+        //increase timer
+        playTimer += Time.deltaTime;
+        timerText.text = "Time left: " + (turnTime - Mathf.RoundToInt(playTimer));
 
-                _myTurn.GetComponent<PlayerMovement>().enabled = false;
-                _myTurn.transform.GetChild(4).gameObject.SetActive(false);
-                
-                player1.GetComponent<PlayerMovement>().enabled = true;
-                player1.transform.GetChild(4).gameObject.SetActive(true);
-                
-                _myTurn = player1;
+
+        if (players[turn] != null && players[(turn + 1) % 2] != null)
+        {
+            //active player
+            players[turn].GetComponent<PlayerMovement>().enabled = true;
+            cameras[turn].SetActive(true);
+            guns[turn].GetComponent<CharacterWeapon>().enabled = true;
+
+            //inactive player
+            players[(turn + 1) % 2].GetComponent<PlayerMovement>().enabled = false;
+            cameras[(turn + 1) % 2].SetActive(false);
+            guns[(turn + 1) % 2].GetComponent<CharacterWeapon>().enabled = false;
+            
+
+            //changes turn after 10s
+            if(playTimer > turnTime)
+            {
+                turn = ((turn + 1) % 2);
+                playTimer = 0;
             }
+        }
+       
+
+
+        //win check
+        if (players[0].activeSelf == false)
+        {
+            print("player 2 won!");
+        }
+        else if (players[1].activeSelf == false)
+        {
+            print("player 1 won!");
         }
     }
 }

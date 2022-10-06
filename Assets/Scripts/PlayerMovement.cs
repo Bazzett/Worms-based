@@ -14,7 +14,8 @@ public class PlayerMovement : MonoBehaviour
     private bool readyToJump = true;
 
     private Camera mainCam;
-    
+
+
     
 
     [Header("Keybinds")]
@@ -37,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-
+        if (GetComponent<TurnManager>())
         grounded = Physics.Raycast(transform.position, Vector3.down, 1.1f, 1<<LayerMask.NameToLayer("isGround"));
 
         PlayerInput();
