@@ -1,23 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.UI;
 
 
 public class CharacterWeapon : MonoBehaviour
 {
+    
     public LayerMask ignoreMask;
     public GameObject bulletPrefab;
     public Transform barrelPos;
     public float bulletSpeed;
 
     [Header("Ammo")] 
-    [SerializeField] private float magSize;
-    [SerializeField] private float bulletsLeft;
+    [SerializeField] public float magSize;
+    [SerializeField] public float bulletsLeft;
     [SerializeField] private Text ammoDisplay;
-
+    
     private bool readyToShoot = true;
     [SerializeField] private float shootCD;
+
+    private void Awake()
+    {
+        bulletsLeft = magSize;
+    }
+
     void Update()
     {
         RaycastHit hit; 
@@ -28,8 +34,12 @@ public class CharacterWeapon : MonoBehaviour
             transform.LookAt(hit.point);
         }
 
-
-        ammoDisplay.text = bulletsLeft + "/" + magSize;
+        if (bulletsLeft > magSize)
+        {
+            Reload();
+        }
+        
+        ammoDisplay.text = "Bullets left " + bulletsLeft + "/" + magSize;
         Shoot();
     }
 
@@ -47,6 +57,12 @@ public class CharacterWeapon : MonoBehaviour
         }
     }
 
+    public void Reload()
+    {
+        bulletsLeft = magSize;
+    }
+    
+    
     private void ResetShot()
     {
         readyToShoot = true;

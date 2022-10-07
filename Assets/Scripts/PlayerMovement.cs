@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -14,10 +11,7 @@ public class PlayerMovement : MonoBehaviour
     private bool readyToJump = true;
 
     private Camera mainCam;
-
-
     
-
     [Header("Keybinds")]
     public KeyCode jumpKey = KeyCode.Space;
 
@@ -26,7 +20,9 @@ public class PlayerMovement : MonoBehaviour
     float horizontalInput;
     float verticalInput;
     Vector3 moveDirection;
-    
+
+
+    [SerializeField] public CharacterWeapon myWeapon;
     public Transform orientation;
     Rigidbody rb;
     
@@ -38,8 +34,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (GetComponent<TurnManager>())
-        grounded = Physics.Raycast(transform.position, Vector3.down, 1.1f, 1<<LayerMask.NameToLayer("isGround"));
+        grounded = Physics.Raycast(transform.position, Vector3.down, 1.5f, 1<<LayerMask.NameToLayer("isGround"));
 
         PlayerInput();
         SpeedControl();
