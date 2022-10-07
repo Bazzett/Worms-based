@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class TurnManager : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class TurnManager : MonoBehaviour
     public GameObject[] guns;
 
     public float turnTime = 10;
+    
+    
     
     
     void Update()
@@ -48,11 +51,13 @@ public class TurnManager : MonoBehaviour
         //win check
         if (players[0].activeSelf == false)
         {
-            print("player 2 won!");
+            Cursor.lockState = CursorLockMode.None;
+            SceneManager.LoadScene("GameOverP2");
         }
         else if (players[1].activeSelf == false)
         {
-            print("player 1 won!");
+            Cursor.lockState = CursorLockMode.None;
+            SceneManager.LoadScene("GameOverP1");
         }
     }
 }
